@@ -1,5 +1,5 @@
 # Websocket 行情推送
-本篇所列出的所有wss接口的baseurl为: wss://wss:ws.bitrue.com/kline-api/ws
+本篇所列出的所有wss接口的baseurl为: wss://ws.bitrue.com/kline-api/ws
 ### 支持的数据
 目前提供了k线，成交，深度，ticker 四种数据。
 
