@@ -337,8 +337,33 @@ k线的channel 格式为：market_%s_kline_%S
 
 # 有限档深度信息
 默认提供的深度信息是40档的深度信息。
-深度悉尼下有三个精度。
- 
+提供了三种精度的深度信息。
+
+### channel 格式 market_%s_depth_step%d
+其中 %s 代表币对信息， %d 代表精度种类，精度有三个取值 分别是 0，1，2 。
+对应的精度分别是 获取支持的币对信息 接口中的 精度。
+例如 币对adausdt 通过 支持的币对信息 接口获取的 响应为 
+
+``` json
+{
+    "name":"ADA/USDT", #币对
+    "key":"adausdt",  #币对
+    "scale":{
+        "price":6, #价格展示的精度
+        "volume":2 #成交量展示的精度 
+    },
+    "depth":[. #精度信息
+        5,  #第一档精度，价格精确到小数点后5位
+        4, #第二档精度，价格精确到小数点后4位
+        3 #第三档精度，价格精确到小数点后3位
+    ]
+}
+```
+那么
+用户请求第一档精度（精确到小数点）的 深度信息是 channel 为 market_adausdt_depth_step0.
+用户请求第二档精度的 深度信息是 channel 为 market_adausdt_depth_step1.
+用户请求第三档精度的 深度信息是 channel 为 market_adausdt_depth_step2.
+
 ### 订阅深度信息
 
 ``` json
@@ -426,8 +451,47 @@ k线的channel 格式为：market_%s_kline_%S
 
 **返回示例**
 
+一共支持四种计价币
 ```json
-{"btc":[{"name":"BTR/BTC","key":"btrbtc","scale":{"price":9,"volume":1},"depth":[9,8,7]},{"name":"BTR/BTC","key":"btrbtc","scale":{"price":9,"volume":1},"depth":[9,8,7]}],"usdt":[],"xrp":[],"eth":[]}
+{
+    "btc":[ #btc 市场的币对集合
+        {
+            "name":"BTR/BTC",
+            "key":"btrbtc",
+            "scale":{
+                "price":9,
+                "volume":1
+            },
+            "depth":[
+                9,
+                8,
+                7
+            ]
+        },
+        {
+            "name":"BTR/BTC",
+            "key":"btrbtc", #币对
+            "scale":{
+                "price":9, #价格展示的精度
+                "volume":1 #成交量展示的精度 
+            },
+            "depth":[ #深度信息的 价格精度
+                9, #第一档精度，价格精确到小数点后9位
+                8, #第二档精度，价格精确到小数点后8位
+                7 #第三档精度，价格精确到小数点后7位
+            ]
+        }
+    ],
+    "usdt":[ #usdt 市场的币对集合 （数据已经被省略了）
+
+    ],
+    "xrp":[#xrp 市场的币对集合 （数据已经被省略了）
+
+    ],
+    "eth":[#eth 市场的币对集合 （数据已经被省略了）
+
+    ]
+}
 ```
 
 
